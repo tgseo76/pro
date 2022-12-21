@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
-
+    //    http://localhost:8080/swagger-ui/index.html
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -20,6 +20,7 @@ public class UserController {
 
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody UserRequest dto){
+        userService.join(dto.getUserName(), dto.getPassword());
         return ResponseEntity.ok().body("회원가입 성공");
     }
 }
