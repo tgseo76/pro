@@ -1,8 +1,13 @@
-#??? ?? ??
 spring:
   mvc:
     path match:
       matching-strategy: ant_path_matcher
   datasource:
-    url: environment variables
-    password: environment variables
+    url: jdbc:mysql://localhost:3306/pro
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
