@@ -1,9 +1,8 @@
 package com.example.project.service;
 
 import com.example.project.domain.entity.User;
-import com.example.project.exception.DuplicatedUserNameException;
+import com.example.project.exception.MyException;
 import com.example.project.repository.UserRepository;
-import com.sun.jdi.request.DuplicateRequestException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class UserService {
         //중복확인
         userRepository.findByUserName(name)
                 .ifPresent(user -> {
-                    throw new DuplicatedUserNameException(name+"는 회원중복");
+                    throw new MyException(MyException.ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
                 });
 
         //저장
