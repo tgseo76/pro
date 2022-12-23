@@ -11,3 +11,10 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+
+# UserService의 public String key값
+#     @Value("${jwt.token.secret}") // ${jwt.token.secret} ==> yml파일 어노테이션 라이브러리 롬복 x 스프링프레임워크
+#    private String key;
+jwt:
+  token:
+    secret: secret

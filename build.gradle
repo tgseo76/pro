@@ -23,12 +23,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.5'
     implementation 'mysql:mysql-connector-java:8.0.30'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1' //JSON Web Token support for the JVM (io.jsonwebtoken:jjwt)
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-
 
     // swagger dependency
     implementation "io.springfox:springfox-boot-starter:3.0.0"

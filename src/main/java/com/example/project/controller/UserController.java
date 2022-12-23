@@ -24,4 +24,12 @@ public class UserController {
         userService.join(dto.getUserName(), dto.getPassword());
         return ResponseEntity.ok().body("회원가입 성공");
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserRequest dto){
+        String token = userService.login(dto.getUserName(), dto.getPassword());
+        return ResponseEntity.ok().body(token);
+    }
+
+
 }
