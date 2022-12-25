@@ -1,6 +1,7 @@
 package com.example.project.controller;
 
 import com.example.project.domain.dto.JoinResponse;
+import com.example.project.domain.dto.LoginResponse;
 import com.example.project.domain.dto.Response;
 import com.example.project.domain.dto.UserRequest;
 import com.example.project.service.UserService;
@@ -36,9 +37,10 @@ public class UserController {
 //    }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserRequest dto){
+    public ResponseEntity<Response<LoginResponse>> login(@RequestBody UserRequest dto){
+        JoinResponse joinResponse1 = userService.join(dto.getUserName(), dto.getPassword());
         String token = userService.login(dto.getUserName(), dto.getPassword());
-        return ResponseEntity.ok().body(token);
+        return ResponseEntity.ok().body(Response.success(token));
     }
 
 //    {
