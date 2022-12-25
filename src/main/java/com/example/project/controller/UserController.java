@@ -38,9 +38,9 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Response<LoginResponse>> login(@RequestBody UserRequest dto){
-        JoinResponse joinResponse1 = userService.join(dto.getUserName(), dto.getPassword());
         String token = userService.login(dto.getUserName(), dto.getPassword());
-        return ResponseEntity.ok().body(Response.success(token));
+        LoginResponse loginResponse = new LoginResponse(token);
+        return ResponseEntity.ok().body(Response.success(loginResponse));
     }
 
 //    {
@@ -48,6 +48,11 @@ public class UserController {
 ////            "result": {
 ////        "jwt": "eyJhbGciOiJIU",
 //    }
+//    }
+//
+//    {
+//        "resultCode": "success",
+//            "result": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSh0b2tlbi5jcmVhdGVUb2tlbikiOiJhYSIsImlhdCI6MTY3MTk5MDI0MywiZXhwIjoxNjcyMDc2NjQzfQ.x3Q2Vnai9PtyJlnCNX-gLuGT7KHTMoaX_M-V5D7Buoc"
 //    }
 
 
