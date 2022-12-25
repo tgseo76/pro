@@ -1,5 +1,7 @@
 package com.example.project.controller;
 
+import com.example.project.domain.dto.JoinResponse;
+import com.example.project.domain.dto.Response;
 import com.example.project.domain.dto.UserRequest;
 import com.example.project.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,31 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody UserRequest dto){
-        userService.join(dto.getUserName(), dto.getPassword());
-        return ResponseEntity.ok().body("회원가입 성공");
+    public ResponseEntity<Response<JoinResponse>> join(@RequestBody UserRequest dto) {
+        JoinResponse joinResponse1 = userService.join(dto.getUserName(), dto.getPassword());
+        return ResponseEntity.ok().body(Response.success(joinResponse1));
     }
+//
+//    {
+//        "resultCode": "SUCCESS",
+//            "result": {
+//        "userId": 5,
+//                "userName": "test1"
+//    }
+//    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserRequest dto){
         String token = userService.login(dto.getUserName(), dto.getPassword());
         return ResponseEntity.ok().body(token);
     }
+
+//    {
+////        "resultCode": "SUCCESS",
+////            "result": {
+////        "jwt": "eyJhbGciOiJIU",
+//    }
+//    }
 
 
 }

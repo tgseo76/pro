@@ -1,5 +1,6 @@
 package com.example.project.service;
 
+import com.example.project.domain.dto.JoinResponse;
 import com.example.project.domain.entity.User;
 import com.example.project.exception.MyException;
 import com.example.project.repository.UserRepository;
@@ -22,19 +23,23 @@ public class UserService {
     }
 
     //회원가입
-    public String join(String name, String password) {
+    public JoinResponse join(String name, String password) {
         //중복확인
-        userRepository.findByUserName(name)
-                .ifPresent(user -> {
-                    throw new MyException(MyException.ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
-                });
+//        userRepository.findByUserName(name)
+//                .ifPresent(user -> {
+//                    throw new MyException(MyException.ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
+//                });
+        if(userRepository.findByUserName(name).isPresent()){
+            throw new MyException(MyException.ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
+        }
         //저장
         User user = User.builder()
                 .userName(name)
                 .password(encoder.encode(password))
                 .build();
-        userRepository.save(user);
-        return "SUCCESS";
+
+        User saved=userRepository.save(user);
+        return JoinResponse.of(saved);
     }
 
     //로그인
