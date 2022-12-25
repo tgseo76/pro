@@ -11,7 +11,6 @@ public class MyException extends RuntimeException{
     private ErrorCode errorCode;
     private String message;
 
-
     @AllArgsConstructor
     @Getter
     public enum ErrorCode {
