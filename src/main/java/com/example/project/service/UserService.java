@@ -38,8 +38,8 @@ public class UserService {
                 .userName(name)
                 .password(encoder.encode(password))
                 .build();
-        User saved = userRepository.save(user);
-        return JoinResponse.of(saved);
+        userRepository.save(user);
+        return JoinResponse.of(user);
     }
 
     //로그인
