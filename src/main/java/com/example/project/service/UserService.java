@@ -38,6 +38,10 @@ public class UserService {
                 .userName(name)
                 .password(encoder.encode(password))
                 .build();
+
+//        User saved=userRepository.save(user);
+//        return JoinResponse.of(saved);
+
         userRepository.save(user);
         return JoinResponse.of(user);
     }
@@ -46,6 +50,10 @@ public class UserService {
     public String login(String name, String password) {
         // 없는 회원   orElseThrow() ==> 없을때 에러
         User user = userRepository.findByUserName(name).orElseThrow(()->new MyException(MyException.ErrorCode.USERNAME_NOT_FOUND,name+"이 없습니다(service.login)"));
+//        if(userRepository.findByUserName(name).get()==null){
+//            User user = throw new MyException(MyException.ErrorCode.USERNAME_NOT_FOUND,name+"이 없습니다(service.login)");
+//        }
+
 
         //pw오류
         if(!encoder.matches(password,user.getPassword())){ // (로그인시 받는 패스워드먼저,  db에 저장된 암호화 된 pw는 2번째)
