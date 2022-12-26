@@ -27,6 +27,11 @@ public class UserController {
         JoinResponse joinResponse= userService.join(dto.getUserName(), dto.getPassword());
         return ResponseEntity.ok().body(UserResponse.success(joinResponse));
     }
+//    @PostMapping("/join")
+//    public UserResponse<JoinResponse> join(@RequestBody UserRequest dto){
+//        JoinResponse joinResponse= userService.join(dto.getUserName(), dto.getPassword());
+//        return UserResponse.success(joinResponse);
+//    }
 //    {
 //        "resultCode": "SUCCESS",
 //            "result":{
