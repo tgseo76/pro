@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1")
 public class UserController {
 //    ec2-3-35-10-110.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/index.html
     //    http://localhost:8080/swagger-ui/index.html
@@ -24,31 +24,32 @@ public class UserController {
 
     @PostMapping("/join")
     public ResponseEntity<UserResponse<JoinResponse>> join(@RequestBody UserRequest dto){
-        JoinResponse joinResponse= userService.join(dto.getUserName(), dto.getPassword());
-        return ResponseEntity.ok().body(UserResponse.success(joinResponse));
+        JoinResponse joinResponse =userService.join(dto.getUserName(), dto.getPassword());
+        UserResponse<JoinResponse> userResponse = new UserResponse<>("SUCCESS",joinResponse);
+        return ResponseEntity.ok().body(userResponse);
     }
-//    @PostMapping("/join")
-//    public UserResponse<JoinResponse> join(@RequestBody UserRequest dto){
-//        JoinResponse joinResponse= userService.join(dto.getUserName(), dto.getPassword());
-//        return UserResponse.success(joinResponse);
-//    }
+
 //    {
 //        "resultCode": "SUCCESS",
 //            "result":{
-//        "userId": 2,
-//                "userName": "test2"
+//        "userId": 1,
+//                "userName": "aa"
 //    }
 //    }
 
     @PostMapping("/login")
     public ResponseEntity<UserResponse<LoginResponse>> login(@RequestBody UserRequest dto){
-        LoginResponse loginResponse = new LoginResponse(userService.login(dto.getUserName(), dto.getPassword()));
-        return ResponseEntity.ok().body(UserResponse.success(loginResponse));
+        String token = userService.login(dto.getUserName(), dto.getPassword());
+        LoginResponse loginResponse = new LoginResponse(token);
+        UserResponse<LoginResponse> userResponse = new UserResponse<>("SUCCESS",loginResponse);
+        return ResponseEntity.ok().body(userResponse);
     }
+
+
 //    {
 //        "resultCode": "SUCCESS",
 //            "result":{
-//        "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSh0b2tlbi5jcmVhdGVUb2tlbikiOiJ0ZXN0MSIsImlhdCI6MTY3MTk5OTM1NSwiZXhwIjoxNjcyMDg1NzU1fQ.niEp__CqL0yqCxF4rbiIdzCwUrK9sDM_rQKnNlXAznc"
+//        "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSh0b2tlbi5jcmVhdGVUb2tlbikiOiJhYSIsImlhdCI6MTY3MjEyMzA5MSwiZXhwIjoxNjcyMjA5NDkxfQ.mP6xk_1AthztFqqcEKgYashN5FBQUAuPWGnvel77TYQ"
 //    }
 //    }
 
