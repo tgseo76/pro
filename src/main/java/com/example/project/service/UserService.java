@@ -26,7 +26,7 @@ public class UserService {
 
     //회원가입
     public JoinResponse join(String name, String password) {
-        //중복확인
+        //중복확인.
 //        userRepository.findByUserName(name)
 //                .ifPresent(user -> {
 //                    throw new MyException(MyException.ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
