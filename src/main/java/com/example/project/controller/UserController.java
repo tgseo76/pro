@@ -5,6 +5,7 @@ import com.example.project.domain.dto.LoginResponse;
 import com.example.project.domain.dto.UserRequest;
 import com.example.project.domain.dto.UserResponse;
 import com.example.project.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +29,6 @@ public class UserController {
         UserResponse<JoinResponse> userResponse = new UserResponse<>("SUCCESS",joinResponse);
         return ResponseEntity.ok().body(userResponse);
     }
-
-//    {
-//        "resultCode": "SUCCESS",
-//            "result":{
-//        "userId": 1,
-//                "userName": "aa"
-//    }
-//    }
 
     @PostMapping("/login")
     public ResponseEntity<UserResponse<LoginResponse>> login(@RequestBody UserRequest dto){
