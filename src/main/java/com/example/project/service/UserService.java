@@ -2,6 +2,7 @@ package com.example.project.service;
 
 import com.example.project.domain.dto.JoinResponse;
 import com.example.project.domain.entity.User;
+import com.example.project.exception.ErrorCode;
 import com.example.project.exception.MyException;
 import com.example.project.repository.UserRepository;
 import com.example.project.utils.JwtToken;
@@ -32,7 +33,7 @@ public class UserService {
 //                    throw new MyException(MyException.ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
 //                });
                 if(userRepository.findByUserName(name).isPresent()){
-                    throw new MyException(MyException.ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
+                    throw new MyException(ErrorCode.DUPLICATED_USER_NAME, name + "은 이미 있습니다. service join 테스트");
                 }
         //저장
         User user = User.builder()
@@ -49,15 +50,11 @@ public class UserService {
     //로그인
     public String login(String name, String password) {
         // 없는 회원   orElseThrow() ==> 없을때 에러
-        User user = userRepository.findByUserName(name).orElseThrow(()->new MyException(MyException.ErrorCode.USERNAME_NOT_FOUND,name+"이 없습니다(service.login)"));
-//                Optional<User> user = userRepository.findByUserName(name);
-//                if(user.isEmpty()){
-//                    throw new MyException(MyException.ErrorCode.USERNAME_NOT_FOUND,name+"이 없습니다(service.login)");
-//                }
+        User user = userRepository.findByUserName(name).orElseThrow(()->new MyException(ErrorCode.USERNAME_NOT_FOUND,name+"이 없습니다(service.login)"));
 
         //pw오류
         if(!encoder.matches(password,user.getPassword())){ // (로그인시 받는 패스워드먼저,  db에 저장된 암호화 된 pw는 2번째)
-            throw new MyException(MyException.ErrorCode.INVALID_PASSWORD,"패스워드잘못(service.login)");
+            throw new MyException(ErrorCode.INVALID_PASSWORD,"패스워드잘못(service.login)");
         }
 
 
@@ -65,5 +62,6 @@ public class UserService {
         String token = JwtToken.createToken(user.getUserName(),key,expireTimeMs);
         return token;
     }
+
 
 }

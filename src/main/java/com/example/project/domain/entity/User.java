@@ -27,9 +27,6 @@ public class User {
     @Column(nullable = false)
     private String userName;
 
-    private enum UserRole {
-        USER,
-        ADMIN
-    }
+
 }
 
