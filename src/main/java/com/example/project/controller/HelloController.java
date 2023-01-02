@@ -26,4 +26,9 @@ public class HelloController {
         return helloService.num(num);
     }
 
+    @GetMapping("/hello/test")
+    public String test(){
+        return "test";
+    }
+
 }
