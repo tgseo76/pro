@@ -1,6 +1,6 @@
 package com.example.project.service;
 
-import com.example.project.domain.dto.JoinResponse;
+import com.example.project.domain.dto.Users.JoinResponse;
 import com.example.project.domain.entity.User;
 import com.example.project.exception.ErrorCode;
 import com.example.project.exception.MyException;
@@ -9,8 +9,6 @@ import com.example.project.utils.JwtToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserService {

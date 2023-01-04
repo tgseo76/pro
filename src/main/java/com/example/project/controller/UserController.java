@@ -1,11 +1,10 @@
 package com.example.project.controller;
 
-import com.example.project.domain.dto.JoinResponse;
-import com.example.project.domain.dto.LoginResponse;
-import com.example.project.domain.dto.UserRequest;
-import com.example.project.domain.dto.UserResponse;
+import com.example.project.domain.dto.Users.JoinResponse;
+import com.example.project.domain.dto.Users.LoginResponse;
+import com.example.project.domain.dto.Users.UserRequest;
+import com.example.project.domain.dto.Response;
 import com.example.project.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,18 +23,18 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<UserResponse<JoinResponse>> join(@RequestBody UserRequest dto){
+    public ResponseEntity<Response<JoinResponse>> join(@RequestBody UserRequest dto){
         JoinResponse joinResponse =userService.join(dto.getUserName(), dto.getPassword());
-        UserResponse<JoinResponse> userResponse = new UserResponse<>("SUCCESS",joinResponse);
-        return ResponseEntity.ok().body(userResponse);
+        Response<JoinResponse> response = new Response<>("SUCCESS",joinResponse);
+        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse<LoginResponse>> login(@RequestBody UserRequest dto){
+    public ResponseEntity<Response<LoginResponse>> login(@RequestBody UserRequest dto){
         String token = userService.login(dto.getUserName(), dto.getPassword());
         LoginResponse loginResponse = new LoginResponse(token);
-        UserResponse<LoginResponse> userResponse = new UserResponse<>("SUCCESS",loginResponse);
-        return ResponseEntity.ok().body(userResponse);
+        Response<LoginResponse> response = new Response<>("SUCCESS",loginResponse);
+        return ResponseEntity.ok().body(response);
     }
 
 
