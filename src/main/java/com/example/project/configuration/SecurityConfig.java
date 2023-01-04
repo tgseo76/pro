@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .authorizeRequests()
 //                .antMatchers("/api/**").permitAll()
                 .antMatchers("/api/v1/users/join","/api/v1/users/login").permitAll() //join,login 허용
-                .antMatchers(HttpMethod.POST,"/api/v1/posts/**").authenticated() //post요청 인증해야 가능
+                .antMatchers(HttpMethod.POST,"/api/v1/posts/*").authenticated() //post요청 인증해야 가능
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //jwt토큰사용할때

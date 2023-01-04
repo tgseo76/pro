@@ -1,6 +1,7 @@
 package com.example.project.configuration;
 
 import com.example.project.service.UserService;
+import com.example.project.utils.JwtToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +30,28 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        final String authentication = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("auth : {}",authentication);
+        final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info("auth : {}",authorization);
 
-        if(authentication==null){
+        if(authorization==null || !authorization.startsWith("Bearer ")){
+            log.error("authorization을 잘못 보냈습니다");
+            filterChain.doFilter(request,response);
+            return;
+        }
+        
+        //토큰 꺼내기
+        String token = authorization.split(" ")[1];
 
-            log.error("auth==null");
+        //토큰 expired 체크
+        if(JwtToken.isExpired(token,secretKey)){
+            log.error("토큰이 만료");
             filterChain.doFilter(request,response);
             return;
         }
 
-        String userName="";
+        //username 토큰에서 거내기
+        String userName=JwtToken.getUserName(token,secretKey);
+        log.info("username : {}",userName);
 
         //권한
         UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(userName,null, List.of(new SimpleGrantedAuthority("USER")));

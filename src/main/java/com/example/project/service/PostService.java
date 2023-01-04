@@ -19,19 +19,7 @@ public class PostService {
 
 
     //게시판 작성
-    public PostResponse write(PostRequest dto, String name){
-        User user = userRepository.findByUserName(name).orElseThrow(()->new MyException(ErrorCode.USERNAME_NOT_FOUND,name+"이 없습니다.(postser.write"));
 
-        Post post = Post.builder()
-                .user(user)
-                .body(dto.getBody())
-                .title(dto.getTitle())
-                .build();
 
-        postRepository.save(post);
-
-        PostResponse postResponse = new PostResponse("포스트 등록 완료",post.getId());
-        return postResponse;
-    }
 
 }

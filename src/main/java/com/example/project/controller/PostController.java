@@ -23,23 +23,11 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping("")
-    public ResponseEntity<Response<PostResponse>> post(@RequestBody PostRequest dto, Authentication authentication){
-        String name = authentication.getName();
-        System.out.println("name = "+name);
-        PostResponse postResponse = postService.write(dto,name);
-        System.out.println(postResponse);
-        Response<PostResponse> response = new Response<>("SUCCESS",postResponse);
-        return ResponseEntity.ok().body(response);
 
-
-    }
 //    @PostMapping("")
-//    public String post(){
+//    public String post(Authentication authentication){
 //
-//        return "asdf";
-//
-//
+//        return authentication.getName();
 //    }
 
 
