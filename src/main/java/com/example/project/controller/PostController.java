@@ -23,6 +23,13 @@ public class PostController {
         this.postService = postService;
     }
 
+    @PostMapping("/test")
+    public String test(@RequestBody Authentication authentication){
+        System.out.println(authentication.getName());
+        return authentication.getName();
+    }
+
+
 
 //    @PostMapping("")
 //    public String post(Authentication authentication){

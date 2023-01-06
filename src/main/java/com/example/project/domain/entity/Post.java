@@ -1,6 +1,8 @@
 package com.example.project.domain.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
@@ -18,7 +20,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
+    @CreatedDate
     private LocalDateTime createdAt;
+    @LastModifiedDate
     private LocalDateTime LastModifiedAt;
     private String body;
     private String title;
