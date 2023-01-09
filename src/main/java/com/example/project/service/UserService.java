@@ -2,15 +2,18 @@ package com.example.project.service;
 
 import com.example.project.domain.dto.Users.JoinResponse;
 import com.example.project.domain.entity.User;
+import com.example.project.domain.entity.UserRole;
 import com.example.project.exception.ErrorCode;
 import com.example.project.exception.MyException;
 import com.example.project.repository.UserRepository;
 import com.example.project.utils.JwtToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
@@ -37,6 +40,7 @@ public class UserService {
         User user = User.builder()
                 .userName(name)
                 .password(encoder.encode(password))
+                .role(UserRole.USER)
                 .build();
         userRepository.save(user);
 
@@ -59,6 +63,16 @@ public class UserService {
         // 토큰 발행
         String token = JwtToken.createToken(user.getUserName(),key,expireTimeMs);
         return token;
+    }
+
+    public User getUserByUserName(String userName) {
+                User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new MyException(ErrorCode.USERNAME_NOT_FOUND, ""));
+                log.info("user = {}",user);
+                return user;
+//        return userRepository.findByUserName(userName)
+//                .orElseThrow(() -> new MyException(ErrorCode.USERNAME_NOT_FOUND, ""));
+
     }
 
 

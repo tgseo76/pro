@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+
 @RestController
 @RequestMapping("/api/v1/posts")
 public class PostController {
+    //"Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSh0b2tlbi5jcmVhdGVUb2tlbikiOiJ6eGN2IiwiaWF0IjoxNjczMjI4OTQ4LCJleHAiOjE2NzMzMTUzNDh9.ytQZdDKFi5Rycye1rSf-7oCAnzCCVGxaqoHLsdlkuAg"
+
     //    http://localhost:8080/swagger-ui/index.html
     private final  PostService postService;
 
@@ -23,12 +27,11 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping("/test")
-    public String test(@RequestBody Authentication authentication){
+    @PostMapping("")
+    public String test(@RequestBody PostRequest postRequest, Authentication authentication){
         System.out.println(authentication.getName());
         return authentication.getName();
     }
-
 
 
 //    @PostMapping("")
@@ -38,7 +41,3 @@ public class PostController {
 //    }
 
 }
-
-
-
-
