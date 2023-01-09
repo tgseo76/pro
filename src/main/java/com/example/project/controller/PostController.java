@@ -9,11 +9,7 @@ import com.example.project.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -29,13 +25,23 @@ public class PostController {
 
     
     //포스트 등록
-    @PostMapping("")
+        @PostMapping("")
 //    ResponseEntity<Response<PostResponse>>
-    public ResponseEntity<Response<PostResponse>> add(@RequestBody PostRequest postRequest, Authentication authentication){
-        PostResponse postResponse = postService.addPost(postRequest.getTitle(),postRequest.getBody(),authentication.getName());
-        Response<PostResponse> response= new Response<>("SUCCESS",postResponse);
+        public ResponseEntity<Response<PostResponse>> add(@RequestBody PostRequest postRequest, Authentication authentication){
+            PostResponse postResponse = postService.addPost(postRequest.getTitle(),postRequest.getBody(),authentication.getName());
+            Response<PostResponse> response= new Response<>("SUCCESS",postResponse);
         return ResponseEntity.ok().body(response);
     }
+
+    //삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<PostResponse>> del(@PathVariable Long id,Authentication authentication){
+        PostResponse postResponse = postService.delPost(id,authentication.getName());
+        Response<PostResponse> response = new Response<>("SUCCESS",postResponse);
+        return ResponseEntity.ok().body(response);
+    }
+
+
 
 
 

@@ -22,7 +22,8 @@ public class Post {
     public Long id;
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    @Column(name = "createdAt",updatable = false)
+    private LocalDateTime createdAt= LocalDateTime.now();
     @LastModifiedDate
     private LocalDateTime LastModifiedAt;
     private String body;
@@ -31,13 +32,13 @@ public class Post {
     @ManyToOne
     private User user;
 
-    public static Post of(String title, String body, User user) {
-        Post entity = new Post();
-        entity.setTitle(title);
-        entity.setBody(body);
-        entity.setUser(user);
-        return entity;
-    }
+//    public static Post of(String title, String body, User user) {
+//        Post entity = new Post();
+//        entity.setTitle(title);
+//        entity.setBody(body);
+//        entity.setUser(user);
+//        return entity;
+//    }
 
 
 }

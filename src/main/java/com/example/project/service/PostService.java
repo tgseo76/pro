@@ -10,6 +10,7 @@ import com.example.project.exception.MyException;
 import com.example.project.repository.PostRepository;
 import com.example.project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class PostService {
 //             Optional<User> userentity = userRepository.findByUserName(name);
 //        }
 //
-
+        //entity로 바꾸기
         Post post = Post.builder()
                 .title(title)
                 .body(body)
@@ -38,18 +39,23 @@ public class PostService {
                 .build();
         postRepository.save(post);
 
+        //dto로 바꾸기
         PostResponse postResponse = PostResponse.builder()
                 .postId(post.id)
                 .message("포스트 등록 완료")
                 .build();
 
-        System.out.printf("post = \n",post.id);
-        System.out.printf("postRes = \n",postResponse.getPostId());
         return postResponse;
+
     }
 
 
+    public PostResponse delPost(Long id, String name) {
+        User userEntity=userRepository.findByUserName(name).orElseThrow(()-> new MyException(ErrorCode.USERNAME_NOT_FOUND,name));
 
+        postRepository.deleteById(id);
 
-
+        PostResponse postResponse = new PostResponse("포스트 삭제 완료",id);
+        return postResponse;
+    }
 }
