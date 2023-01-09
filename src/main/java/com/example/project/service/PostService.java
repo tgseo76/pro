@@ -20,17 +20,18 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-
+    private final UserService userService;
 
     //게시판 작성
     public PostResponse addPost(String title, String body,String name){
         User userEntity=userRepository.findByUserName(name).orElseThrow(()-> new MyException(ErrorCode.USERNAME_NOT_FOUND,name));
 //        if(userRepository.findByUserName(name).isPresent()){
-//            throw new MyException(ErrorCode.USERNAME_NOT_FOUND,name);
+//            User userentity = userRepository.findByUserName(name);
 //        } else {
-//             Optional<User> userentity = userRepository.findByUserName(name);
-//        }
+//            throw new MyException(ErrorCode.USERNAME_NOT_FOUND,name);
 //
+//        }
+
         //entity로 바꾸기
         Post post = Post.builder()
                 .title(title)
@@ -46,16 +47,30 @@ public class PostService {
                 .build();
 
         return postResponse;
-
     }
 
-
+    //삭제
     public PostResponse delPost(Long id, String name) {
-        User userEntity=userRepository.findByUserName(name).orElseThrow(()-> new MyException(ErrorCode.USERNAME_NOT_FOUND,name));
+        //user   1=aa111
+        Long checkId=userService.getUserByUserName(name).getUserId();
+        //post_count(1).user.user.id(1)=1
+        Long inputId =getPostById(id).getUser().getUserId();
 
-        postRepository.deleteById(id);
+        if(checkId!=inputId){
+            throw new MyException(ErrorCode.Post_NOT_FOUND, "post id 없음");
+        }
+            postRepository.deleteById(id);
+            PostResponse postResponse = new PostResponse("포스트 삭제 완료",id);
 
-        PostResponse postResponse = new PostResponse("포스트 삭제 완료",id);
         return postResponse;
+    }
+
+    public Post getPostById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new MyException(ErrorCode.Post_NOT_FOUND, "post id 없음"));
+        return post;
+//        return userRepository.findByUserName(userName)
+//                .orElseThrow(() -> new MyException(ErrorCode.USERNAME_NOT_FOUND, ""));
+
     }
 }

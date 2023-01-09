@@ -9,8 +9,9 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     DUPLICATED_USER_NAME(HttpStatus.CONFLICT,"DUPLICATED메세지 테스트"),
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND,"Not founded메세지 테스트"),
-    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "INVALID_PASSWORD메세지 테스트");
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "INVALID_PASSWORD메세지 테스트"),
 
+    Post_NOT_FOUND(HttpStatus.NOT_FOUND,"post Not founded메세지 테스트");
     private HttpStatus httpStatus;
     private String message;
     //    1. DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "UserName이 중복됩니다.")
