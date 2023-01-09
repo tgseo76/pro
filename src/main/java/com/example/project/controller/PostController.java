@@ -3,6 +3,7 @@ package com.example.project.controller;
 import com.example.project.domain.dto.Post.PostRequest;
 import com.example.project.domain.dto.Post.PostResponse;
 import com.example.project.domain.dto.Response;
+import com.example.project.domain.dto.Users.JoinResponse;
 import com.example.project.domain.entity.Post;
 import com.example.project.service.PostService;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +23,20 @@ public class PostController {
 
     //    http://localhost:8080/swagger-ui/index.html
     private final  PostService postService;
-
     public PostController(PostService postService) {
         this.postService = postService;
     }
 
+    
+    //포스트 등록
     @PostMapping("")
-    public String test(@RequestBody PostRequest postRequest, Authentication authentication){
-        System.out.println(authentication.getName());
-        return authentication.getName();
+//    ResponseEntity<Response<PostResponse>>
+    public ResponseEntity<Response<PostResponse>> add(@RequestBody PostRequest postRequest, Authentication authentication){
+        PostResponse postResponse = postService.addPost(postRequest.getTitle(),postRequest.getBody(),authentication.getName());
+        Response<PostResponse> response= new Response<>("SUCCESS",postResponse);
+        return ResponseEntity.ok().body(response);
     }
 
 
-//    @PostMapping("")
-//    public String post(Authentication authentication){
-//
-//        return authentication.getName();
-//    }
 
 }

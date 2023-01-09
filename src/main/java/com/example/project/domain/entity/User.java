@@ -22,7 +22,7 @@ public class User {
     private LocalDateTime deletedAt;
     @Column(nullable = false)
     private String password;
-//    @CreatedDate
+    @CreatedDate
     private LocalDateTime registeredAt;
 //    @ColumnDefault("'USER'")
 //    private String role;
