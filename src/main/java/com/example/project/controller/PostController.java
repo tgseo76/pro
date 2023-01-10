@@ -1,5 +1,6 @@
 package com.example.project.controller;
 
+import com.example.project.domain.dto.Post.PostReadResponse;
 import com.example.project.domain.dto.Post.PostRequest;
 import com.example.project.domain.dto.Post.PostResponse;
 import com.example.project.domain.dto.Response;
@@ -27,7 +28,7 @@ public class PostController {
     //포스트 등록
     @PostMapping("")
 //    ResponseEntity<Response<PostResponse>>
-    public ResponseEntity<Response<PostResponse>> add(@RequestBody PostRequest postRequest, Authentication authentication) {
+    public ResponseEntity<Response<PostResponse>> create(@RequestBody PostRequest postRequest, Authentication authentication) {
         PostResponse postResponse = postService.addPost(postRequest.getTitle(), postRequest.getBody(), authentication.getName());
         Response<PostResponse> response = new Response<>("SUCCESS", postResponse);
         return ResponseEntity.ok().body(response);
@@ -38,6 +39,14 @@ public class PostController {
     public ResponseEntity<Response<PostResponse>> del(@PathVariable Long id, Authentication authentication) {
         PostResponse postResponse = postService.delPost(id, authentication.getName());
         Response<PostResponse> response = new Response<>("SUCCESS", postResponse);
+        return ResponseEntity.ok().body(response);
+    }
+
+    //1건 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<PostReadResponse>> read(@PathVariable Long id){
+        PostReadResponse post = postService.readPost(id);
+        Response<PostReadResponse> response = new Response<>("SUCCESS",post);
         return ResponseEntity.ok().body(response);
     }
 }

@@ -3,6 +3,7 @@ package com.example.project.domain.entity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
@@ -14,23 +15,30 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_count")
     public Long id;
+    private String title;
+    private String body;
+    @ManyToOne
+    private User user;
 
     @CreatedDate
     @Column(name = "createdAt",updatable = false)
-    private LocalDateTime createdAt= LocalDateTime.now();
+    private LocalDateTime createdAt;
+
     @LastModifiedDate
     private LocalDateTime LastModifiedAt;
-    private String body;
-    private String title;
 
-    @ManyToOne
-    private User user;
+
+
+
+
+
 
 //    public static Post of(String title, String body, User user) {
 //        Post entity = new Post();
