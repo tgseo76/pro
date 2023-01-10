@@ -49,4 +49,14 @@ public class PostController {
         Response<PostReadResponse> response = new Response<>("SUCCESS",post);
         return ResponseEntity.ok().body(response);
     }
+
+    //수정
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<PostResponse>> update(@PathVariable Long id, @RequestBody PostRequest postRequest, Authentication authentication){
+        PostResponse postResponse = postService.updatePost(id,postRequest.getTitle(),postRequest.getBody(),authentication.getName());
+        Response<PostResponse> response = new Response<>("SUCCESS", postResponse);
+
+        return ResponseEntity.ok().body(response);
+    }
+
 }

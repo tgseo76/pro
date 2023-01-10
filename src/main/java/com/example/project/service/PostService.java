@@ -1,21 +1,15 @@
 package com.example.project.service;
 
 import com.example.project.domain.dto.Post.PostReadResponse;
-import com.example.project.domain.dto.Post.PostRequest;
 import com.example.project.domain.dto.Post.PostResponse;
 import com.example.project.domain.entity.Post;
 import com.example.project.domain.entity.User;
-import com.example.project.domain.entity.UserRole;
 import com.example.project.exception.ErrorCode;
 import com.example.project.exception.MyException;
 import com.example.project.repository.PostRepository;
 import com.example.project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 
 @Service
@@ -72,12 +66,8 @@ public class PostService {
 
     //1개 상세조회
     public PostReadResponse readPost(Long id) {
-        //?? getById & findById 차이
 //        Post post = postRepository.findById(id).orElseThrow(()-> new MyException(ErrorCode.Post_NOT_FOUND,""));
         Post post = getPostById(id);
-        if (post.equals(null)){
-            throw new MyException(ErrorCode.Post_NOT_FOUND, "post id 없음");
-        }
 
         PostReadResponse postReadResponse = PostReadResponse.builder()
                 .id(post.getId())
@@ -91,11 +81,27 @@ public class PostService {
         return postReadResponse;
     }
 
+    //수정
+    public PostResponse updatePost(Long id, String title, String body, String name) {
+        Long checkId = userService.getUserByUserName(name).getUserId();
+        Long inputId = getPostById(id).getUser().getUserId();
 
+        if (checkId!=inputId) {
+            throw new MyException(ErrorCode.Post_NOT_FOUND, "post id 없음");
+        }
 
+        Post post = getPostById(id);
+        post.setTitle(title);
+        post.setBody(body);
+        postRepository.save(post);
 
+        PostResponse postResponse = PostResponse.builder()
+                .postId(post.id)
+                .message("포스트 수정 완료")
+                .build();
 
-
+        return postResponse;
+    }
 
 
     // post_id 있나 확인
@@ -107,6 +113,7 @@ public class PostService {
 //                .orElseThrow(() -> new MyException(ErrorCode.USERNAME_NOT_FOUND, ""));
 
     }
+
 
 
 }
