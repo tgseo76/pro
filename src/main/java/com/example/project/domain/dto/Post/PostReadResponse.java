@@ -14,6 +14,6 @@ public class PostReadResponse {
     private String title;
     private String body;
     private String userName;
-    private LocalDateTime createdAt;
-    private LocalDateTime lastModifiedAt;
+    private String createdAt;
+    private String lastModifiedAt;
 }

@@ -72,6 +72,7 @@ public class PostService {
 
     //1개 상세조회
     public PostReadResponse readPost(Long id) {
+        //?? getById & findById 차이
 //        Post post = postRepository.findById(id).orElseThrow(()-> new MyException(ErrorCode.Post_NOT_FOUND,""));
         Post post = getPostById(id);
         if (post.equals(null)){

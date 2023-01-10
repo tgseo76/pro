@@ -34,10 +34,26 @@ public class User {
     @CreatedDate
 //    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 //    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
-    private LocalDateTime createdAt;
+    @Column(updatable = false)
+    private String createdAt;
 
     @LastModifiedDate
-    private LocalDateTime lastModifiedAt;
+    private String lastModifiedAt;
+
+//2023-01-10 10:39:06.677143
+// 2023-01-10 10:50:26
+    @PrePersist
+//      String으로 바꾸기
+    public void onPrePersist(){
+        this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.lastModifiedAt = this.createdAt;
+    }
+
+    @PreUpdate
+    public void onPreUpdatePersist(){
+        this.lastModifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
 
     @Enumerated(EnumType.STRING)
 //    @Column(name="role")

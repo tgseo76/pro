@@ -8,6 +8,7 @@ import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -29,11 +30,22 @@ public class Post {
 
     @CreatedDate
     @Column(name = "createdAt",updatable = false)
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     @LastModifiedDate
-    private LocalDateTime LastModifiedAt;
+    private String lastModifiedAt;
 
+    @PrePersist
+//      String으로 바꾸기
+    public void onPrePersist(){
+        this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.lastModifiedAt = this.createdAt;
+    }
+
+    @PreUpdate
+    public void onPreUpdatePersist(){
+        this.lastModifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
 
 
 
