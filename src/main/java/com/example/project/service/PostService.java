@@ -9,6 +9,8 @@ import com.example.project.exception.MyException;
 import com.example.project.repository.PostRepository;
 import com.example.project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -49,11 +51,9 @@ public class PostService {
 
     //삭제
     public PostResponse delPost(Long id, String name) {
-        //user   1=aa111
-        Long checkId = userService.getUserByUserName(name).getUserId();
-        //post_count(1).user.user.id(1)=1
-        Long inputId = getPostById(id).getUser().getUserId();
 
+        Long checkId = userService.getUserByUserName(name).getUserId();
+        Long inputId = getPostById(id).getUser().getUserId();
 
         if (checkId!=inputId) {
             throw new MyException(ErrorCode.Post_NOT_FOUND, "post id 없음");
@@ -91,7 +91,8 @@ public class PostService {
         }
 
         Post post = getPostById(id);
-        post.setTitle(title);
+
+            post.setTitle(title);
         post.setBody(body);
         postRepository.save(post);
 
@@ -115,5 +116,10 @@ public class PostService {
     }
 
 
+    public Page<PostReadResponse> listPost(Pageable pageable) {
+        Page<Post> posts= postRepository.findAll(pageable);
+        Page<PostReadResponse> postResponses=PostReadResponse.toDtoList(posts);
+        return postResponses;
 
+    }
 }
